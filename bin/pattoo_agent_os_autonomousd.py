@@ -31,7 +31,6 @@ from pattoo_agents.os import collector
 from pattoo_agents.os.configuration import ConfigAutonomousd as Config
 
 
-
 class PollingAgent(Agent):
     """Agent that gathers data."""
 
@@ -98,6 +97,10 @@ def main():
     """
     # Get configuration
     agent_poller = PollingAgent(PATTOO_AGENT_OS_AUTONOMOUSD)
+
+    # Setup Encryption
+    agent_poller.set_email('pattoo_test1@gmail.com') # Make this retrieve the information from a yaml
+    gpg = agent_poller.get_gnupg()
 
     # Do control
     cli = AgentCLI()
