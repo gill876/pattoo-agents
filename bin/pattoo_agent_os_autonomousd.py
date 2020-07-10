@@ -48,6 +48,11 @@ class PollingAgent(Agent):
         Agent.__init__(self, parent)
         self._parent = parent
 
+        # Set up encryption using Pgpier in Agent
+        self.set_email('pattoo_test1@gmail.com') # Make this retrieve the information from a yaml
+        self.gpg = self.set_gnupg() # Creation and retrieval of Pgpier object
+
+
     def query(self):
         """Query all remote targets for data.
 
@@ -73,6 +78,9 @@ class PollingAgent(Agent):
             # Post to remote server
             server = PostAgent(agentdata)
 
+            # Test encrypt post
+            server.key_exchange(self.gpg)
+
             # Post data
             success = server.post()
 
@@ -97,10 +105,6 @@ def main():
     """
     # Get configuration
     agent_poller = PollingAgent(PATTOO_AGENT_OS_AUTONOMOUSD)
-
-    # Setup Encryption
-    agent_poller.set_email('pattoo_test1@gmail.com') # Make this retrieve the information from a yaml
-    gpg = agent_poller.get_gnupg()
 
     # Do control
     cli = AgentCLI()
