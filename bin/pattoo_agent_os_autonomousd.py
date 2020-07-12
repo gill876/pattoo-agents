@@ -79,7 +79,10 @@ class PollingAgent(Agent):
             server = PostAgent(agentdata)
 
             # Test encrypt post
-            server.key_exchange(self.gpg)
+            encryption_result = server.set_encryption(self.gpg)
+            with open('/home/cargill/Desktop/encrypt_result', 'w') as f:
+                f_output = str(encryption_result)
+                f.write(f_output)
 
             # Post data
             success = server.post()
