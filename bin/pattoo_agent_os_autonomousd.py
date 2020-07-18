@@ -81,12 +81,13 @@ class PollingAgent(Agent):
             # Set up encryption
             encryption_result = server.set_encryption(self.gpg)
 
-            # Post data
-            success = server.post()
+            if encryption_result:
+                # Post encrypted data
+                success = server.encrypted_post(self.gpg)
 
             # Purge cache if success is True
             if success is True:
-                server.purge()
+                server.encrypted_purge(self.gpg)
 
             # Sleep
             duration = time() - ts_start
