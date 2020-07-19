@@ -25,7 +25,7 @@ else:
 # Pattoo libraries
 from pattoo_shared import log
 from pattoo_shared.agent import Agent, AgentCLI
-from pattoo_shared.phttp import PostAgent
+from pattoo_shared.phttp import PostAgent, EncryptedPostAgent
 from pattoo_agents.os.constants import PATTOO_AGENT_OS_AUTONOMOUSD
 from pattoo_agents.os import collector
 from pattoo_agents.os.configuration import ConfigAutonomousd as Config
@@ -75,8 +75,8 @@ class PollingAgent(Agent):
             # Get system data
             agentdata = collector.poll(self._parent, _pi)
 
-            # Post to remote server
-            server = PostAgent(agentdata)
+            # Post encrypted data to remote server
+            server = EncryptedPostAgent(agentdata, self.gpg)
 
             # Post data
             success = server.post()
