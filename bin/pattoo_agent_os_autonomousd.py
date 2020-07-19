@@ -48,8 +48,18 @@ class PollingAgent(Agent):
         Agent.__init__(self, parent)
         self._parent = parent
 
+        # Add email address to Agent subclass
+        econfig = Config()
+        email_addr = econfig.agent_email_address()
+        self.set_email(email_addr)
+
+        # Email address must be same in the created Pgpier
+        # object for the API as the one in the yaml file
+        # or else an error might be encounter. To use a
+        # different email address, delete the contents of the
+        # key folder
+
         # Set up encryption using Pgpier in Agent
-        self.set_email('pattoo_test1@gmail.com') # Make this retrieve the information from a yaml
         self.gpg = self.set_gnupg() # Creation and retrieval of Pgpier object
 
 
